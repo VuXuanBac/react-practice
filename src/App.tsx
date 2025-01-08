@@ -1,3 +1,11 @@
+import Header from "./pages/layout/Header";
+import HomePage from "./pages/HomePage";
+
 export default function App() {
-  return <h1 className="text-tertiary-700 font-bold">Hello World</h1>;
+  return (
+    <>
+      <Header />
+      <HomePage />
+    </>
+  );
 }
