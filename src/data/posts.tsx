@@ -1,11 +1,3 @@
-export const Reactions = [
-  { id: 1, emoji: "❤️", name: "love" },
-  { id: 2, emoji: "👎", name: "dislike" },
-  { id: 3, emoji: "😂", name: "haha" },
-  { id: 4, emoji: "😢", name: "sad" },
-  { id: 5, emoji: "😡", name: "angry" },
-];
-
 export interface Post {
   id: number;
   title: string;
@@ -19,6 +11,7 @@ export interface Post {
     haha: number;
     sad: number;
     angry: number;
+    disgust: number;
   };
 }
 
@@ -44,6 +37,7 @@ export default [
       haha: 38,
       sad: 0,
       angry: 0,
+      disgust: 3,
     },
   },
   {
@@ -68,6 +62,7 @@ export default [
       haha: 380,
       sad: 10,
       angry: 10,
+      disgust: 1,
     },
   },
   {
@@ -90,6 +85,7 @@ export default [
       haha: 1,
       sad: 125,
       angry: 5,
+      disgust: 23,
     },
   },
   {
@@ -114,6 +110,7 @@ export default [
       haha: 38,
       sad: 12,
       angry: 8,
+      disgust: 100,
     },
   },
 ] as readonly Post[];
