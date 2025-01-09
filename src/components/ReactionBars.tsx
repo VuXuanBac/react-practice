@@ -2,6 +2,7 @@ import ReactionsData, { ReactionUI, Reactions } from "../data/reactions";
 
 export interface ReactionsBarProps {
   reactions: Reactions;
+  showDetail?: boolean;
   selectedReaction?: ReactionUI | null;
   onSelectReaction?: (reaction: ReactionUI | null) => void;
 }
@@ -9,10 +10,11 @@ export interface ReactionsBarProps {
 export default function ReactionsBar({
   reactions,
   selectedReaction = null,
+  showDetail = true,
   onSelectReaction,
 }: ReactionsBarProps) {
   return (
-    <div className="flex gap-3 items-center text-gray-600">
+    <>
       {Object.entries(ReactionsData).map(([key, reaction]) => {
         const isSelected = selectedReaction?.name == reaction.name;
         const reactionCount =
@@ -24,22 +26,24 @@ export default function ReactionsBar({
             onClick={() =>
               onSelectReaction && onSelectReaction(isSelected ? null : reaction)
             }
-            className={`transition-transform transform ${
+            className={`flex transition-transform transform ${
               selectedReaction?.name === reaction.name
-                ? "scale-125 "
+                ? "scale-125"
                 : "hover:scale-110"
             }`}
           >
             {reaction.emoji}
-            <span
-              className={`ml-1 ${isSelected ? "font-bold" : ""}`}
-              hidden={reactionCount < 1}
-            >
-              {reactionCount}
-            </span>
+            {showDetail && (
+              <span
+                className={`ml-1 ${isSelected ? "font-bold" : ""}`}
+                hidden={reactionCount < 1}
+              >
+                {reactionCount}
+              </span>
+            )}
           </button>
         );
       })}
-    </div>
+    </>
   );
 }

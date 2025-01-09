@@ -32,7 +32,7 @@ export default [
       dislike: 12,
       haha: 38,
       sad: 0,
-      angry: 0,
+      angry: 45,
       disgust: 3,
     },
     comments: [

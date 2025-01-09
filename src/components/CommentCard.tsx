@@ -50,11 +50,13 @@ export default function CommentCard({ comment }: CommentCardProps) {
               }
             >
               {showReactionsBar ? (
-                <ReactionsBar
-                  reactions={comment.reactions}
-                  selectedReaction={selectedReaction}
-                  onSelectReaction={setSelectedReaction}
-                />
+                <div className="flex gap-3 items-center text-gray-600">
+                  <ReactionsBar
+                    reactions={comment.reactions}
+                    selectedReaction={selectedReaction}
+                    onSelectReaction={setSelectedReaction}
+                  />
+                </div>
               ) : (
                 <ReactionsStatistic
                   reactions={comment.reactions}

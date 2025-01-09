@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { Post } from "../data/posts";
-import ReactionsData, { DEFAULT_REACTION, ReactionUI } from "../data/reactions";
+import { DEFAULT_REACTION, ReactionUI } from "../data/reactions";
 
 import { HeartIcon } from "@heroicons/react/24/outline";
 import CommentsList from "./CommentsList";
 import ReactionsStatistic from "./ReactionsStatistic";
 import CommentButton from "./CommentButton";
 import { getTotalComments } from "../utils/helper";
+import ReactionsBar from "./ReactionBars";
 
 export interface PostCardProps {
   post: Post;
@@ -63,7 +64,7 @@ export default function PostCard({ post }: PostCardProps) {
       />
 
       {/* Actions */}
-      <div className="text-lg flex justify-around border-t pt-2 mt-2 text-gray-600">
+      <div className="flex justify-around border-t pt-2 mt-2 text-gray-600">
         <div className="relative" onMouseEnter={() => setShowReactions(true)}>
           <button
             className="flex items-center hover:text-blue-500 min-h-7"
@@ -79,24 +80,19 @@ export default function PostCard({ post }: PostCardProps) {
                 <HeartIcon className="w-5 h-5 mr-1" />
               )}
             </span>
-            <span className="font-bold">{selectedReaction?.name}</span>
+            <span className="font-bold">{selectedReaction?.text}</span>
           </button>
-          {/* Reactions Popup */}
+
           {showReactions && (
-            <div className="absolute -top-14 -left-12 flex gap-4 bg-white shadow-md rounded-full p-2 border border-gray-200 z-10">
-              {Object.entries(ReactionsData).map(([key, reaction]) => (
-                <button
-                  key={key}
-                  className="text-2xl hover:scale-125 transition-transform"
-                  title={reaction.name}
-                  onClick={() => {
-                    setSelectedReaction(reaction);
-                    setShowReactions(false);
-                  }}
-                >
-                  {reaction.emoji}
-                </button>
-              ))}
+            <div className="z-30 absolute -top-14 -left-12 flex gap-4 bg-white shadow-md rounded-full p-2 border border-gray-200">
+              <ReactionsBar
+                reactions={post.reactions}
+                selectedReaction={selectedReaction}
+                onSelectReaction={(reaction) => {
+                  setSelectedReaction(reaction);
+                  setShowReactions(false);
+                }}
+              />
             </div>
           )}
         </div>

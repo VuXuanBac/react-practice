@@ -1,5 +1,5 @@
-import ReactionsData, { ReactionUI, Reactions } from "../data/reactions";
-import { getDominantReaction, getTotalReactions } from "../utils/helper";
+import { ReactionUI, Reactions } from "../data/reactions";
+import { getReactionsStatistic } from "../utils/helper";
 
 export interface ReactionsStatisticProps {
   selectedReaction: ReactionUI | null;
@@ -12,8 +12,8 @@ export default function ReactionsStatistic({
   reactions,
   defaultElement,
 }: ReactionsStatisticProps) {
-  const dominantReaction = ReactionsData[getDominantReaction(reactions)];
-  const totalReactions = getTotalReactions(reactions) + +!!selectedReaction;
+  const { dominant: dominantReaction, total: totalReactions } =
+    getReactionsStatistic(reactions, selectedReaction);
 
   const isSelectDominant = dominantReaction?.name !== selectedReaction?.name;
 
