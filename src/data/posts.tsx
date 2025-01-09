@@ -1,3 +1,5 @@
+import { Comment } from "../data/comments";
+import { Reactions } from "../data/reactions";
 export interface Post {
   id: number;
   title: string;
@@ -5,14 +7,8 @@ export interface Post {
   author: string;
   coverUrl: string;
   timestamp: Date;
-  reactions: {
-    love: number;
-    dislike: number;
-    haha: number;
-    sad: number;
-    angry: number;
-    disgust: number;
-  };
+  reactions: Reactions;
+  comments: Comment[];
 }
 
 export default [
@@ -39,6 +35,81 @@ export default [
       angry: 0,
       disgust: 3,
     },
+    comments: [
+      {
+        id: 7654,
+        level: 1,
+        content:
+          "JavaScript is the world most popular lightweight, interpreted compiled programming language. It is also known as scripting language for web pages. It is well-known for the development of web pages",
+        author: "Who is who",
+        timestamp: new Date("2024-10-24T04:15:35Z"),
+        reactions: { haha: 12, love: 5, dislike: 8 },
+        subcomments: [] as Comment[],
+      },
+      {
+        id: 9345,
+        level: 1,
+        content:
+          "Trong thế giới JavaScript, npm, yarn và pnpm là ba trình quản lý gói phổ biến nhất. Chúng giúp các nhà phát triển tự động hóa quá trình xuất bản, cài đặt, nâng cấp, và gỡ bỏ các phần mềm. Mặc dù có những đối thủ mới xuất hiện trong những năm gần đây như bun và deno, nhưng lập trình viên vẫn sử dụng ba trình quản lý gói này nhiều.",
+        author: "Shinichi Kudo",
+        timestamp: new Date("2024-10-24T06:15:35Z"),
+        reactions: {},
+        subcomments: [
+          {
+            id: 2346,
+            level: 2,
+            content:
+              "nếu mà pj nhỏ thì npm là ok rùi nhỉ, nhma cho em hỏi thường pj lớn thì họ xài j ạ",
+            author: "Ngô Tấn Thanh",
+            timestamp: new Date("2024-10-24T07:15:35Z"),
+            reactions: { sad: 432 },
+            subcomments: [
+              {
+                id: 2347,
+                level: 3,
+                content: "vẫn là npm thôi em. <script>alert('xss')</script>",
+                author: "Người tham gia ẩn danh 582",
+                timestamp: new Date("2024-10-24T08:15:35Z"),
+                reactions: { angry: 1231 },
+                subcomments: [
+                  {
+                    id: 2348,
+                    level: 4,
+                    content: `For counts of emoji, see Emoji Counts.
+
+                    While these charts use a particular version of the Unicode Emoji data files, the images and format may be updated at any time. For any production usage, consult those data files. For information about the contents of each column, such as the CLDR Short Name, click on the column header. For further information, see Index & Help.
+                    `,
+                    author: "Ngô Tấn Thanh",
+                    timestamp: new Date("2024-10-24T09:15:35Z"),
+                    reactions: {
+                      angry: 124234,
+                      sad: 2342,
+                      haha: 10,
+                    },
+                    subcomments: [
+                      {
+                        id: 7424,
+                        level: 5,
+                        content:
+                          "This chart provides a list of the Unicode emoji characters and sequences, with images from different vendors, CLDR name, date, source, and keywords. The ordering of the emoji and the annotations are based on Unicode CLDR data. Emoji sequences have more than one code point in the Code column",
+                        author: "Người tham gia ẩn danh 582",
+                        timestamp: new Date("2024-10-24T09:17:35Z"),
+                        reactions: {
+                          angry: 124234,
+                          sad: 2342,
+                          haha: 10,
+                        },
+                        subcomments: [],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ] as Comment[],
   },
   {
     id: 2,
@@ -64,6 +135,27 @@ export default [
       angry: 10,
       disgust: 1,
     },
+    comments: [
+      {
+        id: 2143,
+        level: 1,
+        content: "Excellent! 😀",
+        author: "Trung Hieu",
+        timestamp: new Date("2024-12-06T06:23:08Z"),
+        reactions: {},
+        subcomments: [
+          {
+            id: 1131,
+            level: 2,
+            content: `Đã xài Bun được nửa năm nay.`,
+            author: "Nguyễn Hồng Quân",
+            timestamp: new Date("2024-12-06T10:23:08Z"),
+            reactions: { haha: 15 },
+            subcomments: [],
+          },
+        ],
+      },
+    ],
   },
   {
     id: 3,
@@ -87,6 +179,7 @@ export default [
       angry: 5,
       disgust: 23,
     },
+    comments: [],
   },
   {
     id: 4,
@@ -112,5 +205,26 @@ export default [
       angry: 8,
       disgust: 100,
     },
+    comments: [
+      {
+        id: 1234,
+        level: 1,
+        content: "Excellent! 😀",
+        author: "Shinichi Kudo",
+        timestamp: new Date("2024-06-10T14:40:30Z"),
+        reactions: {},
+        subcomments: [],
+      },
+      {
+        id: 1413,
+        level: 1,
+        content: `npm h cũng nhanh k kém yarn nhờ sp tính năng parallel download từ phiên bản 7 rồi bạn
+        npm set maxsockets 50`,
+        author: "Cánh Buồm Phiêu Du",
+        timestamp: new Date("2024-06-10T16:10:30Z"),
+        reactions: { haha: 15 },
+        subcomments: [],
+      },
+    ],
   },
 ] as readonly Post[];
