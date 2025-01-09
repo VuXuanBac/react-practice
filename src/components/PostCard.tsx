@@ -1,35 +1,16 @@
 import { useState } from "react";
 import { Post } from "../data/posts";
-import ReactionsData, {
-  DEFAULT_REACTION,
-  ReactionUI,
-  Reactions,
-} from "../data/reactions";
-import { Comment } from "../data/comments";
-import { HeartIcon, ChatBubbleOvalLeftIcon } from "@heroicons/react/24/outline";
+import ReactionsData, { DEFAULT_REACTION, ReactionUI } from "../data/reactions";
+
+import { HeartIcon } from "@heroicons/react/24/outline";
 import CommentsList from "./CommentsList";
+import ReactionsStatistic from "./ReactionsStatistic";
+import CommentButton from "./CommentButton";
+import { getTotalComments } from "../utils/helper";
 
 export interface PostCardProps {
   post: Post;
 }
-
-const getDominantReaction = (reactions: Reactions) => {
-  // sort by number of reactions
-  const sortedReactions = Object.entries(reactions).sort((a, b) => b[1] - a[1]);
-  const dominantReaction = sortedReactions[0];
-  return dominantReaction[1] > 0 ? dominantReaction[0] : "";
-};
-
-const getTotalReactions = (reactions: Reactions) => {
-  return Object.values(reactions).reduce((sum, count) => sum + count, 0);
-};
-
-const getTotalComments = (comments: Comment[]): number => {
-  return comments.reduce(
-    (sum, comment: Comment) => sum + getTotalComments(comment.subcomments),
-    comments.length
-  );
-};
 
 export default function PostCard({ post }: PostCardProps) {
   const [showReactions, setShowReactions] = useState(false);
@@ -38,16 +19,11 @@ export default function PostCard({ post }: PostCardProps) {
   );
   const [showComments, setShowComments] = useState(false);
 
-  const dominantReaction = ReactionsData[getDominantReaction(post.reactions)];
-  const dominantBackground = dominantReaction?.color || "bg-white";
-  const totalReactions = getTotalReactions(post.reactions);
   const totalComments = getTotalComments(post.comments);
-
-  const isSelectDominant = dominantReaction.name !== selectedReaction?.name;
 
   return (
     <div
-      className={`max-w-xl mx-auto shadow-md rounded-lg p-4 mb-4 ${dominantBackground}`}
+      className={`max-w-xl mx-auto shadow-md rounded-lg p-4 mb-4 bg-white`}
       onMouseLeave={() => setShowReactions(false)}
     >
       {/* Header */}
@@ -81,25 +57,13 @@ export default function PostCard({ post }: PostCardProps) {
         )}
       </div>
 
-      {/* Dominant Reaction */}
-      {dominantReaction && (
-        <div className="mb-2 text-sm text-gray-700 flex items-center gap-2">
-          <span className="text-lg z-20">{dominantReaction.emoji}</span>
-          <span className="text-lg -ml-4 z-10">
-            {isSelectDominant && selectedReaction?.emoji}
-          </span>
-          <span
-            className={`text-sm ${
-              selectedReaction && isSelectDominant ? "ml-0" : "ml-2"
-            }`}
-          >
-            {totalReactions}
-          </span>
-        </div>
-      )}
+      <ReactionsStatistic
+        reactions={post.reactions}
+        selectedReaction={selectedReaction}
+      />
 
       {/* Actions */}
-      <div className="flex justify-around border-t pt-2 mt-2 text-gray-600">
+      <div className="text-lg flex justify-around border-t pt-2 mt-2 text-gray-600">
         <div className="relative" onMouseEnter={() => setShowReactions(true)}>
           <button
             className="flex items-center hover:text-blue-500 min-h-7"
@@ -108,14 +72,14 @@ export default function PostCard({ post }: PostCardProps) {
               setShowReactions(!!selectedReaction);
             }}
           >
-            <span className="text-xl mr-3">
+            <span className=" mr-3">
               {selectedReaction ? (
                 selectedReaction?.emoji
               ) : (
                 <HeartIcon className="w-5 h-5 mr-1" />
               )}
             </span>
-            <strong>{selectedReaction?.name}</strong>
+            <span className="font-bold">{selectedReaction?.name}</span>
           </button>
           {/* Reactions Popup */}
           {showReactions && (
@@ -137,21 +101,14 @@ export default function PostCard({ post }: PostCardProps) {
           )}
         </div>
 
-        <button
-          className={`flex items-center hover:text-blue-500 ${
-            showComments ? "font-bold" : ""
-          }`}
-          onClick={() => setShowComments(!showComments)}
-        >
-          <ChatBubbleOvalLeftIcon className="w-5 h-5 mr-1" />
-          {totalComments > 0 && (
-            <span className="pt-1">{totalComments} comments</span>
-          )}
-        </button>
+        <CommentButton
+          totalComments={totalComments}
+          showComments={showComments}
+          onClickShowComments={setShowComments}
+        />
       </div>
 
-      {/* Comments Section */}
-      <div className="mt-6" hidden={!showComments}>
+      <div className="mt-2 border-t-2 pt-3" hidden={!showComments}>
         {/* <h3 className="text-gray-800 font-semibold mb-3">Comments</h3> */}
         <CommentsList comments={post.comments} />
       </div>
