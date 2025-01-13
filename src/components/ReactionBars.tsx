@@ -5,7 +5,6 @@ export interface ReactionsBarProps {
   showDetail?: boolean;
   selectedReaction?: ReactionUI | null;
   onSelectReaction?: (reaction: ReactionUI | null) => void;
-  reverse?: boolean;
 }
 
 export default function ReactionsBar({
@@ -13,22 +12,17 @@ export default function ReactionsBar({
   selectedReaction = null,
   showDetail = true,
   onSelectReaction,
-  reverse = false,
 }: ReactionsBarProps) {
-  let reactionsData = Object.entries(ReactionsData);
-  if (reverse) {
-    reactionsData = reactionsData.reverse();
-  }
   return (
     <>
-      {reactionsData.map(([key, reaction]) => {
+      {Object.entries(ReactionsData).map(([key, reaction]) => {
         const isSelected = selectedReaction?.name == reaction.name;
         const reactionCount =
           (reactions[key as keyof Reactions] || 0) + +isSelected;
         return (
           <button
             key={key}
-            title={reaction.name}
+            title={reaction.text}
             onClick={() =>
               onSelectReaction && onSelectReaction(isSelected ? null : reaction)
             }

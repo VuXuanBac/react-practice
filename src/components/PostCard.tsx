@@ -14,7 +14,6 @@ export interface PostCardProps {
 }
 
 export default function PostCard({ post }: PostCardProps) {
-  const [showReactions, setShowReactions] = useState(false);
   const [selectedReaction, setSelectedReaction] = useState<ReactionUI | null>(
     null
   );
@@ -23,10 +22,7 @@ export default function PostCard({ post }: PostCardProps) {
   const totalComments = getTotalComments(post.comments);
 
   return (
-    <div
-      className={`max-w-xl mx-auto shadow-md rounded-lg p-4 mb-4 bg-white`}
-      onMouseLeave={() => setShowReactions(false)}
-    >
+    <div className="max-w-xl mx-auto shadow-md rounded-lg p-4 mb-4 bg-white">
       {/* Header */}
       <div className="flex items-center mb-4">
         <img
@@ -65,12 +61,11 @@ export default function PostCard({ post }: PostCardProps) {
 
       {/* Actions */}
       <div className="flex justify-around border-t pt-2 mt-2 text-gray-600">
-        <div className="relative" onMouseEnter={() => setShowReactions(true)}>
+        <div className="relative">
           <button
-            className="flex items-center hover:text-blue-500 min-h-7"
+            className="peer flex items-center hover:text-blue-500 min-h-7"
             onClick={() => {
               setSelectedReaction(selectedReaction ? null : DEFAULT_REACTION);
-              setShowReactions(!!selectedReaction);
             }}
           >
             <span className=" mr-3">
@@ -83,18 +78,15 @@ export default function PostCard({ post }: PostCardProps) {
             <span className="font-bold">{selectedReaction?.text}</span>
           </button>
 
-          {showReactions && (
-            <div className="z-30 absolute -top-14 -left-12 flex gap-4 bg-white shadow-md rounded-full p-2 border border-gray-200">
-              <ReactionsBar
-                reactions={post.reactions}
-                selectedReaction={selectedReaction}
-                onSelectReaction={(reaction) => {
-                  setSelectedReaction(reaction);
-                  setShowReactions(false);
-                }}
-              />
-            </div>
-          )}
+          <div className="-z-30 flex peer-hover:z-30 peer-hover:transition-none duration-100 delay-500 opacity-0 peer-hover:opacity-100 hover:opacity-100 hover:z-30 absolute -top-14 -left-12 gap-4 bg-white shadow-md rounded-full p-2 border border-gray-200">
+            <ReactionsBar
+              reactions={post.reactions}
+              selectedReaction={selectedReaction}
+              onSelectReaction={(reaction) => {
+                setSelectedReaction(reaction);
+              }}
+            />
+          </div>
         </div>
 
         <CommentButton
