@@ -1,22 +1,15 @@
 import { useState } from "react";
 import { Comment } from "../data/comments";
-import { ReactionUI } from "../data/reactions";
 import CommentsList from "./CommentsList";
-import ReactionsBar from "./ReactionBars";
-import ReactionsStatistic from "./ReactionsStatistic";
-import { HeartIcon } from "@heroicons/react/24/outline";
 import CommentButton from "./CommentButton";
 import { getTotalComments } from "../utils/helper";
+import CommentReactions from "./CommentReactions";
 
 export interface CommentCardProps {
   comment: Comment;
 }
 
 export default function CommentCard({ comment }: CommentCardProps) {
-  const [selectedReaction, setSelectedReaction] = useState<ReactionUI | null>(
-    null
-  );
-  const [showReactionsBar, setShowReactionsBar] = useState<boolean>(false);
   const [showComments, setShowComments] = useState(false);
 
   const totalComments = getTotalComments(comment.subcomments);
@@ -43,28 +36,7 @@ export default function CommentCard({ comment }: CommentCardProps) {
           </span>
 
           <div className="mt-1 self-end flex gap-3 text-sm">
-            <div
-              onMouseEnter={() => setShowReactionsBar(true)}
-              onMouseLeave={() =>
-                setTimeout(() => setShowReactionsBar(false), 200)
-              }
-            >
-              {showReactionsBar ? (
-                <div className="flex gap-3 items-center text-gray-600">
-                  <ReactionsBar
-                    reactions={comment.reactions}
-                    selectedReaction={selectedReaction}
-                    onSelectReaction={setSelectedReaction}
-                  />
-                </div>
-              ) : (
-                <ReactionsStatistic
-                  reactions={comment.reactions}
-                  selectedReaction={selectedReaction}
-                  defaultElement={<HeartIcon className="w-5 h-5" />}
-                />
-              )}
-            </div>
+            <CommentReactions reactions={comment.reactions} />
             <CommentButton
               totalComments={totalComments}
               showComments={showComments}

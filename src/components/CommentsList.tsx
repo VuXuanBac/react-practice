@@ -7,11 +7,11 @@ export interface CommentsListProps {
 
 export default function CommentsList({ comments }: CommentsListProps) {
   return (
-    <ul className="space-y-4">
+    <ul>
       {comments.map((comment) => (
         <li
           key={comment.id}
-          className={comment.level > 1 ? "border-l-2 pl-2" : ""}
+          className={comment.level > 1 ? "border-l-2 pl-2 pt-2" : ""}
         >
           <CommentCard comment={comment} />
         </li>
