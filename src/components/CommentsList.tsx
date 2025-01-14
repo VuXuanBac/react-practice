@@ -3,17 +3,18 @@ import CommentCard from "./CommentCard";
 
 export interface CommentsListProps {
   comments: Comment[];
+  level: number;
 }
 
-export default function CommentsList({ comments }: CommentsListProps) {
+export default function CommentsList({ comments, level }: CommentsListProps) {
   return (
     <ul>
       {comments.map((comment) => (
         <li
           key={comment.id}
-          className={comment.level > 1 ? "border-l-2 pl-2 pt-2" : ""}
+          className={level > 1 ? "border-l-2 pl-2 py-2" : ""}
         >
-          <CommentCard comment={comment} />
+          <CommentCard comment={comment} level={level} />
         </li>
       ))}
     </ul>

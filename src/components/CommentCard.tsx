@@ -7,9 +7,10 @@ import CommentReactions from "./CommentReactions";
 
 export interface CommentCardProps {
   comment: Comment;
+  level: number;
 }
 
-export default function CommentCard({ comment }: CommentCardProps) {
+export default function CommentCard({ comment, level }: CommentCardProps) {
   const [showComments, setShowComments] = useState(false);
 
   const totalComments = getTotalComments(comment.subcomments);
@@ -47,8 +48,7 @@ export default function CommentCard({ comment }: CommentCardProps) {
       </div>
 
       <div className="ml-5 mt-3" hidden={!showComments}>
-        {/* <h3 className="text-gray-800 font-semibold mb-3">Comments</h3> */}
-        <CommentsList comments={comment.subcomments} />
+        <CommentsList comments={comment.subcomments} level={level + 1} />
       </div>
     </>
   );
