@@ -26,17 +26,15 @@ export default function CommentCard({ comment, level }: CommentCardProps) {
           className="w-10 h-10 rounded-full object-cover border border-gray-300"
         />
 
-        <div className="ml-3 flex flex-col flex-1">
-          <h4 className="text-gray-800 font-semibold text-sm">
-            {comment.author}
-          </h4>
-          <span className="text-gray-700 text-sm">
-            {comment.content.split(/(\r\n|\n)/g).map((line) => (
-              <p>{line}</p>
+        <div className="ml-3 flex flex-col flex-1 text-sm">
+          <h4 className="text-gray-800 font-semibold ">{comment.author}</h4>
+          <span className="text-gray-700">
+            {comment.content.split(/(\r\n|\n)/g).map((line, index) => (
+              <p key={index}>{line}</p>
             ))}
           </span>
 
-          <div className="mt-1 self-end flex gap-3 text-sm">
+          <div className="mt-1 self-end flex gap-3">
             <CommentReactions reactions={comment.reactions} />
             <CommentButton
               totalComments={totalComments}
@@ -48,7 +46,11 @@ export default function CommentCard({ comment, level }: CommentCardProps) {
       </div>
 
       <div className="ml-5 mt-3" hidden={!showComments}>
-        <CommentsList comments={comment.subcomments} level={level + 1} />
+        <CommentsList
+          comments={comment.subcomments}
+          level={level + 1}
+          autoFocus={showComments}
+        />
       </div>
     </>
   );
