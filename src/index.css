@@ -11,4 +11,16 @@
     /* @apply font-shoulder text-xl */
     @apply font-lora text-base;
   }
+
+  .post-content h1 {
+    @apply text-lg font-bold text-gray-900 mb-1;
+  }
+
+  .post-content p {
+    @apply indent-2;
+  }
+
+  .post-content blockquote {
+    @apply border-l-4 px-3 text-stone-700 italic my-2 mx-1;
+  }
 }
