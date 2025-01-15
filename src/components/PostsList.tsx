@@ -1,20 +1,20 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import PostCard from "./PostCard";
 import { Post, parseApiPosts } from "../data/posts";
-import Loading from "./Loading";
 import LoadingPost from "./LoadingPost";
+import InfiniteScroll from "./InfiniteScroll";
 
 export default function PostsList({}) {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(false);
+  const [nextUrl, setNextUrl] = useState(
+    "https://jsonfakery.com/blogs/infinite-scroll"
+  );
 
   const loadMorePosts = () => {
-    if (loading) return;
-
     setLoading(true);
 
-    const fetchPosts = fetch("https://jsonfakery.com/blogs/random/5");
-    fetchPosts
+    fetch(nextUrl)
       .then((response) => {
         console.log("Response", response);
         if (!response.ok) {
@@ -22,29 +22,34 @@ export default function PostsList({}) {
         }
         return response.json();
       })
-      .then((postsData) => {
-        console.log(postsData);
+      .then((pageData) => {
+        console.log(pageData);
+        const postsData = pageData.data;
         const parsedPosts = parseApiPosts(postsData);
-        console.log(parsedPosts);
-        setPosts(parsedPosts);
+        setPosts((prev) => [...prev, ...parsedPosts]);
+        setNextUrl(pageData.next_page_url);
       })
       .catch((err) => {
         console.log(err);
+        setNextUrl(""); // no more loading
       })
       .finally(() => {
         setLoading(false);
       });
   };
 
-  useEffect(() => {
-    loadMorePosts();
-  }, []);
-
   return (
     <div className="max-w-xl mx-auto bg-white">
-      {loading && <LoadingPost />}
-      {loading && <Loading />}
-      {!loading && posts.map((post) => <PostCard key={post.id} post={post} />)}
+      <InfiniteScroll
+        loadMore={loadMorePosts}
+        hasMore={!!nextUrl}
+        loading={loading}
+        loadingComponent={<LoadingPost />}
+      >
+        {posts.map((post) => (
+          <PostCard key={post.id} post={post} />
+        ))}
+      </InfiniteScroll>
     </div>
   );
 }
