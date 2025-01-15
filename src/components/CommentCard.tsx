@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { ArrowUpCircleIcon } from "@heroicons/react/24/outline";
+
 import { Comment } from "../data/comments";
 import CommentsList from "./CommentsList";
 import CommentButton from "./CommentButton";
@@ -12,6 +14,7 @@ export interface CommentCardProps {
 
 export default function CommentCard({ comment, level }: CommentCardProps) {
   const [showComments, setShowComments] = useState(false);
+  const [focusComposer, setFocusComposer] = useState(false);
 
   const totalComments = getTotalComments(comment.subcomments);
   return (
@@ -40,6 +43,10 @@ export default function CommentCard({ comment, level }: CommentCardProps) {
               totalComments={totalComments}
               showComments={showComments}
               onClickShowComments={setShowComments}
+              onClickLeaveAComment={() => {
+                setShowComments(totalComments > 0 ? true : !showComments);
+                setFocusComposer(!focusComposer);
+              }}
             />
           </div>
         </div>
@@ -49,8 +56,14 @@ export default function CommentCard({ comment, level }: CommentCardProps) {
         <CommentsList
           comments={comment.subcomments}
           level={level + 1}
-          autoFocus={showComments}
+          focusComposer={focusComposer}
         />
+
+        <div className="flex justify-end *:w-5 *:h-5">
+          <button type="button" onClick={() => setShowComments(false)}>
+            <ArrowUpCircleIcon className="text-stone-600" />
+          </button>
+        </div>
       </div>
     </>
   );

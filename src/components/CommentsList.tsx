@@ -7,13 +7,13 @@ import { Reactions } from "../data/reactions";
 export interface CommentsListProps {
   comments: Comment[];
   level: number;
-  autoFocus?: boolean;
+  focusComposer?: boolean;
 }
 
 export default function CommentsList({
   comments,
   level,
-  autoFocus = false,
+  focusComposer = false,
 }: CommentsListProps) {
   const [totalComments, setTotalComments] = useState<Comment[]>(comments);
 
@@ -38,8 +38,11 @@ export default function CommentsList({
           <CommentCard comment={comment} level={level} />
         </li>
       ))}
-      <li key="" className="mb-2">
-        <CommentComposer onAddComment={onAddComment} autoFocus={autoFocus} />
+      <li key="new">
+        <CommentComposer
+          onAddComment={onAddComment}
+          autoFocus={focusComposer}
+        />
       </li>
     </ul>
   );

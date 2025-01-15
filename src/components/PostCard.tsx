@@ -1,8 +1,9 @@
 import { useState } from "react";
+import { HeartIcon } from "@heroicons/react/24/outline";
+
 import { Post } from "../data/posts";
 import { DEFAULT_REACTION, ReactionUI } from "../data/reactions";
 
-import { HeartIcon } from "@heroicons/react/24/outline";
 import CommentsList from "./CommentsList";
 import ReactionsStatistic from "./ReactionsStatistic";
 import CommentButton from "./CommentButton";
@@ -21,6 +22,7 @@ export default function PostCard({ post }: PostCardProps) {
     null
   );
   const [showComments, setShowComments] = useState(false);
+  const [focusComposer, setFocusComposer] = useState(false);
 
   const totalComments = getTotalComments(post.comments);
 
@@ -105,6 +107,10 @@ export default function PostCard({ post }: PostCardProps) {
           totalComments={totalComments}
           showComments={showComments}
           onClickShowComments={setShowComments}
+          onClickLeaveAComment={() => {
+            setShowComments(totalComments > 0 ? true : !showComments);
+            setFocusComposer(!focusComposer);
+          }}
         />
       </div>
 
@@ -113,7 +119,7 @@ export default function PostCard({ post }: PostCardProps) {
         <CommentsList
           comments={post.comments}
           level={1}
-          autoFocus={showComments}
+          focusComposer={focusComposer}
         />
       </div>
     </div>

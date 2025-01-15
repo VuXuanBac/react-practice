@@ -4,23 +4,39 @@ export interface CommentButtonProps {
   totalComments?: number;
   showComments: boolean;
   onClickShowComments?: (show: boolean) => void;
+  onClickLeaveAComment?: () => void;
 }
 export default function CommentButton({
   totalComments,
   showComments,
   onClickShowComments,
+  onClickLeaveAComment,
 }: CommentButtonProps) {
   return (
-    <button
-      className={`flex items-center justify-center hover:text-blue-500  ${
+    <div
+      className={`flex items-center justify-center hover:*:font-bold hover:*:text-blue-500  ${
         showComments ? "font-bold text-blue-500" : ""
       }`}
-      onClick={() => onClickShowComments && onClickShowComments(!showComments)}
     >
-      <ChatBubbleOvalLeftIcon className="w-5 h-5" />
+      <button
+        type="button"
+        title="Leave a comment"
+        onClick={() => onClickLeaveAComment && onClickLeaveAComment()}
+      >
+        <ChatBubbleOvalLeftIcon className="w-5 h-5" />
+      </button>
       {totalComments && totalComments > 0 ? (
-        <span className="pl-1">{totalComments}</span>
+        <button
+          type="button"
+          className="pl-1 hover:underline"
+          title={`${totalComments} comments`}
+          onClick={() =>
+            onClickShowComments && onClickShowComments(!showComments)
+          }
+        >
+          {totalComments}
+        </button>
       ) : null}
-    </button>
+    </div>
   );
 }
