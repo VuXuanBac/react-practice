@@ -9,6 +9,7 @@ import CommentButton from "./CommentButton";
 import { getTotalComments } from "../utils/helper";
 import ReactionsBar from "./ReactionBars";
 import { formatRelative, DATETIME_FORMAT } from "../utils/format";
+import PostBody from "./PostBody";
 
 export interface PostCardProps {
   post: Post;
@@ -48,10 +49,7 @@ export default function PostCard({ post }: PostCardProps) {
 
       {/* Body */}
       <div className="mb-4">
-        <div
-          className="text-gray-700 text-sm text-justify post-content"
-          dangerouslySetInnerHTML={{ __html: post.body }}
-        ></div>
+        <PostBody content={post.body} />
         {/* Attached Image */}
         {post.coverUrl && (
           <figure className="my-4">
