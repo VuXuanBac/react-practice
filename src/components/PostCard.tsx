@@ -8,7 +8,7 @@ import ReactionsStatistic from "./ReactionsStatistic";
 import CommentButton from "./CommentButton";
 import { getTotalComments } from "../utils/helper";
 import ReactionsBar from "./ReactionBars";
-import { DATETIME_FORMAT } from "../utils/constants";
+import { formatRelative, DATETIME_FORMAT } from "../utils/format";
 
 export interface PostCardProps {
   post: Post;
@@ -36,9 +36,12 @@ export default function PostCard({ post }: PostCardProps) {
           className="w-12 h-12 rounded-full object-cover border border-gray-300"
         />
         <div className="ml-3">
-          <h4 className="text-gray-800 font-semibold">{post.author}</h4>
-          <p className="text-gray-500 text-sm">
-            {post.timestamp.format(DATETIME_FORMAT)}
+          <h4 className="text-gray-800 font-semibold mb-0.5">{post.author}</h4>
+          <p
+            className="text-gray-500 text-sm first-letter:uppercase"
+            title={post.timestamp.format(DATETIME_FORMAT)}
+          >
+            {formatRelative(post.timestamp)}
           </p>
         </div>
       </div>

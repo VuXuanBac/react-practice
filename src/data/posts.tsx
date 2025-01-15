@@ -25,7 +25,10 @@ export function parseApiPosts(postsData: any[]) {
         authorData?.profile_pic || `https://robohash.org/${post.author}`,
       body: DOMPurify.sanitize(post.main_content),
       author: authorData?.username,
-      timestamp: moment(post.updated_at, "ddd, MM/DD/YYYY"),
+      timestamp: moment(post.updated_at, "ddd, MM/DD/YYYY").add(
+        Math.floor(Math.random() * 86400),
+        "seconds"
+      ),
       reactions: fakeReactions(),
       comments: [] as Comment[],
     } as Post;

@@ -21,6 +21,6 @@
   }
 
   .post-content blockquote {
-    @apply border-l-4 px-3 text-stone-700 italic my-2 mx-1;
+    @apply border-l-4 px-3 text-stone-600 italic my-2 mx-1;
   }
 }
