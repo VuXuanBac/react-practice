@@ -21,14 +21,11 @@ export default function InfiniteScroll({
   useEffect(() => {
     if (!hasMore || loading) return; // Stop observing if no more data or already loading
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          loadMore(); // Call loadMore when the observer is triggered
-        }
-      },
-      { threshold: 1.0 }
-    );
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        loadMore();
+      }
+    });
 
     const target = observerRef.current;
     if (target) observer.observe(target);
