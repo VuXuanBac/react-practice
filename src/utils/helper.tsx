@@ -33,3 +33,13 @@ export function getReactionsStatistic(
     ),
   };
 }
+
+export function fakeReactions(): Reactions {
+  return ["love", "dislike", "haha", "sad", "angry", "disgust"].reduce(
+    (reactions, key) => {
+      reactions[key as keyof Reactions] = Math.floor(Math.random() * 100);
+      return reactions;
+    },
+    {} as Reactions
+  );
+}

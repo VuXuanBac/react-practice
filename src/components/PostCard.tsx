@@ -8,6 +8,8 @@ import ReactionsStatistic from "./ReactionsStatistic";
 import CommentButton from "./CommentButton";
 import { getTotalComments } from "../utils/helper";
 import ReactionsBar from "./ReactionBars";
+import { formatRelative, DATETIME_FORMAT } from "../utils/format";
+import PostBody from "./PostBody";
 
 export interface PostCardProps {
   post: Post;
@@ -24,34 +26,36 @@ export default function PostCard({ post }: PostCardProps) {
 
   return (
     <div
-      className={`max-w-xl mx-auto shadow-md rounded-lg p-4 mb-4 bg-white`}
+      className="w-full shadow-md rounded-lg p-4 mb-4 bg-white"
       onMouseLeave={() => setShowReactions(false)}
     >
       {/* Header */}
       <div className="flex items-center mb-4">
         <img
-          src={`https://robohash.org/${post.author}`}
+          src={post.authorAvatarUrl}
           alt={`${post.author}'s avatar`}
           className="w-12 h-12 rounded-full object-cover border border-gray-300"
         />
         <div className="ml-3">
-          <h4 className="text-gray-800 font-semibold">{post.author}</h4>
-          <p className="text-gray-500 text-sm">
-            {post.timestamp.toLocaleString()}
+          <h4 className="text-gray-800 font-semibold mb-0.5">{post.author}</h4>
+          <p
+            className="text-gray-500 text-sm first-letter:uppercase"
+            title={post.timestamp.format(DATETIME_FORMAT)}
+          >
+            {formatRelative(post.timestamp)}
           </p>
         </div>
       </div>
 
       {/* Body */}
       <div className="mb-4">
-        <h3 className="text-lg font-bold text-gray-900 mb-1">{post.title}</h3>
-        <p className="text-gray-700 text-sm text-justify">{post.body}</p>
+        <PostBody content={post.body} />
         {/* Attached Image */}
         {post.coverUrl && (
           <figure className="my-4">
             <img
               src={post.coverUrl}
-              alt={`${post.title} cover image`}
+              alt="cover image"
               className="w-full rounded-lg object-cover border border-gray-200"
             />
           </figure>
