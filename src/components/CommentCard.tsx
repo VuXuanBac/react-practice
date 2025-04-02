@@ -6,6 +6,7 @@ import CommentsList from "./CommentsList";
 import CommentButton from "./CommentButton";
 import { getTotalComments } from "../utils/helper";
 import CommentReactions from "./CommentReactions";
+import { DATETIME_FORMAT } from "../utils/format";
 
 export interface CommentCardProps {
   comment: Comment;
@@ -21,10 +22,10 @@ export default function CommentCard({ comment, level }: CommentCardProps) {
     <>
       <div
         className="flex items-start"
-        title={comment.timestamp.toLocaleString()}
+        title={comment.timestamp.format(DATETIME_FORMAT)}
       >
         <img
-          src={`https://robohash.org/${comment.author}`}
+          src={comment.authorAvatarUrl}
           alt={`${comment.author}'s avatar`}
           className="w-10 h-10 rounded-full object-cover border border-gray-300"
         />
@@ -54,7 +55,7 @@ export default function CommentCard({ comment, level }: CommentCardProps) {
 
       <div className="ml-5 mt-3" hidden={!showComments}>
         <CommentsList
-          comments={comment.subcomments}
+          baseId={comment.id}
           level={level + 1}
           focusComposer={focusComposer}
         />

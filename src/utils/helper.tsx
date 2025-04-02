@@ -34,10 +34,10 @@ export function getReactionsStatistic(
   };
 }
 
-export function fakeReactions(): Reactions {
+export function fakeReactions(scale: number = 100): Reactions {
   return ["love", "dislike", "haha", "sad", "angry", "disgust"].reduce(
     (reactions, key) => {
-      reactions[key as keyof Reactions] = Math.floor(Math.random() * 100);
+      reactions[key as keyof Reactions] = Math.floor(Math.random() * scale);
       return reactions;
     },
     {} as Reactions

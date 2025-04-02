@@ -5,7 +5,7 @@ import { Comment } from "../data/comments";
 import { Reactions } from "../data/reactions";
 import { fakeReactions } from "../utils/helper";
 export interface Post {
-  id: number;
+  id: string;
   body: string;
   author: string;
   authorAvatarUrl: string;

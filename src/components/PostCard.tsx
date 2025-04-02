@@ -117,7 +117,7 @@ export default function PostCard({ post }: PostCardProps) {
       <div className="mt-2 border-t-2 pt-3" hidden={!showComments}>
         <h3 className="text-gray-800 font-semibold mb-3">Comments</h3>
         <CommentsList
-          comments={post.comments}
+          baseId={post.id}
           level={1}
           focusComposer={focusComposer}
         />
